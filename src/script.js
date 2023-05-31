@@ -6,6 +6,7 @@
 //  @returns {number} -  рейтинг победителя
  
 function calculateRate(winnerRate, opponentRate) {
+  let diffRate = winnerRate - opponentRate;
   if (
     typeof winnerRate !== 'number' ||
     typeof opponentRate !== 'number' ||
@@ -14,26 +15,30 @@ function calculateRate(winnerRate, opponentRate) {
   ) {
     return 'Incorrect rating.';
   }
-
-  const ratingDiff = opponentRate - winnerRate;
-
-  if (ratingDiff >= 0 && ratingDiff <= 2) {
-    return winnerRate + 2;
+  if (winnerRate === 0) {
+    return opponentRate;
   }
-
-  if (ratingDiff > 2 && ratingDiff < 20) {
-    return winnerRate + 1;
+  if (diffRate >= 0 && diffRate <= 2){
+    return (winnerRate += 2);
   }
-
-  if (ratingDiff >= 20) {
-    return 0;
+  if (diffRate > 2 && diffRate < 20){
+    return (winnerRate += 1);
   }
-
-  return Math.round((opponentRate - winnerRate + 5) / 3);
+  if (diffRate >= 20){
+    return winnerRate;
+  }
+  if (diffRate < 0){
+    return winnerRate + Math.round((Math.abs(diffRate) + 5) / 3);
+  }
 }
 
-const winnerRate = 10;
-const opponentRate = 15;
-
-const newRate = calculateRate(winnerRate, opponentRate);
-console.log(`Рейтинг победителя: ${newRate}`);
+let number1 = calculateRate(25, 23);
+console.log(number1);
+let number2 = calculateRate(5,23);
+console.log(number2);
+let number3 = calculateRate('go', 23);
+console.log(number3);
+let number4 = calculateRate(23, 0);
+console.log(number4);
+let number5 = calculateRate(0, 25);
+console.log(number5)
